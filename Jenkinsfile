@@ -7,6 +7,7 @@ pipeline {
     agent any
     environment {
                 DOCKER_CRED = credentials('dockerhub-yunandar711')
+                APP_SERVER = credentials('VM-APP')
             }
     stages {
         stage('Build image') {
@@ -24,15 +25,12 @@ pipeline {
         }
         stage('Deploy to server') {
             environment {
-                APP_CRED = credentials('VM-APP')
+                APP_SERVER = credentials('VM-APP')
             }
             steps {
-                script {
-                    remote.user=env.APP_CRED_USR
-                    remote.password=env.APP_CRED_PSW
+                    sh 'ssh -o StrictHostKeyChecking=no APP_SERVER_USR@103.117.56.235'
+                    sh 'sudo docker run yunandar711/nodejs-app'
                 }
-                sshCommand remote: remote, command: 'sudo docker run yunandar711/nodejs-app:${GIT_BRANCH}'
-            }
         }
     }
 //    post {
