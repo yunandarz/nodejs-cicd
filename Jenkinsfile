@@ -11,8 +11,8 @@ pipeline {
     stages {
         stage('Login Docker') {
             steps {
-                 withCredentials([usernamePassword(credentialsId: 'dockerhub-yunandar711', usernameVariable: 'DOCKER_CRED_USR', passwordVariable: 'DOCKER_CRED_PSW')]) 
-                    sh 'docker login -u ${DOCKER_CRED_USR} -p ${DOCKER_CRED_PSW}'
+                 withCredentials([usernamePassword(credentialsId: 'dockerhub-yunandar711', usernameVariable: 'DOCKER_CRED_USR', passwordVariable: 'DOCKER_CRED_PSW')]) { 
+                    sh 'docker login -u ${DOCKER_CRED_USR} -p ${DOCKER_CRED_PSW}' }
             }
         }
         stage('Build image') {
