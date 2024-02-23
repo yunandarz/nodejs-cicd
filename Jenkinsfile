@@ -18,8 +18,8 @@ pipeline {
         stage('Push Dockerhub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-yunandar711', usernameVariable: 'DOCKER_CRED_USR', passwordVariable: 'DOCKER_CRED_PSW')]) { 
-                    sh 'docker login -u ${DOCKER_CRED_USR} -p ${DOCKER_CRED_PSW}' }
-                    sh 'docker push yunandar711/nodejs-app:${GIT_BRANCH}'
+                    sh 'docker login -u ${DOCKER_CRED_USR} -p ${DOCKER_CRED_PSW}' 
+                    sh 'docker push yunandar711/nodejs-app:${GIT_BRANCH}' }
                 }
         }
         stage('Deploy to server') {
