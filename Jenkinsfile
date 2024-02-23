@@ -17,12 +17,12 @@ pipeline {
         }
         stage('Build image') {
             steps {
-                    sh 'docker build -t nodejs-app:${BRANCH_NAME} .'
+                    sh 'docker build -t nodejs-app:${GIT_BRANCH} .'
                 }
         }
         stage('Push Dockerhub') {
             steps {
-                    sh 'docker push yunandar711/nodejs-app:${BRANCH_NAME}'
+                    sh 'docker push yunandar711/nodejs-app:${GIT_BRANCH}'
                 }
         }
         stage('Deploy to server') {
@@ -34,14 +34,14 @@ pipeline {
                     remote.user=env.APP_CRED_USR
                     remote.password=env.APP_CRED_PSW
                 }
-                sshCommand remote: remote, command: 'docker run yunandar711/nodejs-app:${BRANCH_NAME}'
+                sshCommand remote: remote, command: 'docker run yunandar711/nodejs-app:${GIT_BRANCH}'
             }
         }
     }
 //    post {
 //      always {
 //          sh 'echo('complete')''
-       // sh 'docker rm -f yunandar711/nodejs-app:${BRANCH_NAME} && docker logout'
+       // sh 'docker rm -f yunandar711/nodejs-app:${GIT_BRANCH} && docker logout'
 //    }
 //  }
 }
