@@ -31,7 +31,7 @@ pipeline {
                     remote.user=env.APP_CRED_USR
                     remote.password=env.APP_CRED_PSW
                 }
-                sshCommand remote: remote, command: 'docker run yunandar711/nodejs-app:${GIT_BRANCH}'
+                sshCommand remote: remote, command: 'sudo docker run yunandar711/nodejs-app:${GIT_BRANCH}'
             }
         }
     }
