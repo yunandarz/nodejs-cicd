@@ -18,6 +18,7 @@ pipeline {
         stage('Build image') {
             steps {
                     sh 'docker build -t nodejs-app:${GIT_BRANCH} .'
+                    sh 'docker images'
                 }
         }
         stage('Push Dockerhub') {
