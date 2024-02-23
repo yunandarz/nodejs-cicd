@@ -40,7 +40,7 @@ pipeline {
     }
     post {
       always {
-        sh 'docker rm -f yunandar711/nodejs-app:${BRANCH_NAME} && docker logout'
+       // sh 'docker rm -f yunandar711/nodejs-app:${BRANCH_NAME} && docker logout'
     }
   }
 }
