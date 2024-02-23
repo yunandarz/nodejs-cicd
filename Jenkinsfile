@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Build image') {
             steps {
-                    sh 'docker build -t nodejs-app:${GIT_BRANCH} .'
+                    sh 'docker build -t yunandar711/nodejs-app:${GIT_BRANCH} .'
                     sh 'docker images'
                 }
         }
