@@ -5,7 +5,6 @@ remote.allowAnyHosts = true
 
 // Delete branch name from origin/main to main only
 def branchName = env.GIT_BRANCH.replaceFirst('origin/', '')
-sh "docker build -t yunandar711/nodejs-app:${branchName} ."
 
 pipeline {
     agent any
