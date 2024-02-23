@@ -9,12 +9,6 @@ pipeline {
                 DOCKER_CRED = credentials('dockerhub-yunandar711')
             }
     stages {
-        stage('Login Docker') {
-            steps {
-                 withCredentials([usernamePassword(credentialsId: 'dockerhub-yunandar711', usernameVariable: 'DOCKER_CRED_USR', passwordVariable: 'DOCKER_CRED_PSW')]) { 
-                    sh 'docker login -u ${DOCKER_CRED_USR} -p ${DOCKER_CRED_PSW}' }
-            }
-        }
         stage('Build image') {
             steps {
                     sh 'docker build -t nodejs-app:${GIT_BRANCH} .'
@@ -23,6 +17,8 @@ pipeline {
         }
         stage('Push Dockerhub') {
             steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-yunandar711', usernameVariable: 'DOCKER_CRED_USR', passwordVariable: 'DOCKER_CRED_PSW')]) { 
+                    sh 'docker login -u ${DOCKER_CRED_USR} -p ${DOCKER_CRED_PSW}' }
                     sh 'docker push yunandar711/nodejs-app:${GIT_BRANCH}'
                 }
         }
