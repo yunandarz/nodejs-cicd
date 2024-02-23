@@ -38,10 +38,10 @@ pipeline {
             }
         }
     }
-    post {
-      always {
-          sh 'echo('complete')''
+//    post {
+//      always {
+//          sh 'echo('complete')''
        // sh 'docker rm -f yunandar711/nodejs-app:${BRANCH_NAME} && docker logout'
-    }
-  }
+//    }
+//  }
 }
