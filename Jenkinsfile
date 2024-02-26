@@ -44,7 +44,6 @@ pipeline {
     post {
         always {
             steps {
-                echo('complete')
                 sh 'docker image prune -a --force'
             } 
         }
