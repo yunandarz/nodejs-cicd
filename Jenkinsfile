@@ -33,9 +33,7 @@ pipeline {
                         sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${stopContainer} "
                         sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${deleteContName}"
                         sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${deleteImages}"
-
-                    // Run the container
-                        sh "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${dockerRun}"
+                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${dockerRun}"
                     }
                 }
             }
