@@ -47,7 +47,7 @@ pipeline {
         always {
             steps {
                 echo('complete')
-                docker image prune -a --force
+                sh 'docker image prune -a --force'
             } 
         }
     }
