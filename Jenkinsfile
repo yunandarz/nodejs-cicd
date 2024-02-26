@@ -1,14 +1,9 @@
-def remote = [:]
-remote.name = "yunandar-app"
-remote.host = "103.117.56.235"
-remote.allowAnyHosts = true
-
 pipeline {
     agent any
     environment {
                 DOCKER_CRED = credentials('dockerhub-yunandar711')
-                APP_SERVER = credentials('VM-APP')
             }
+            
     stages {
         stage('Build image') {
             steps {
@@ -16,6 +11,7 @@ pipeline {
                     sh 'docker images'
                 }
         }
+
         stage('Push Dockerhub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-yunandar711', usernameVariable: 'DOCKER_CRED_USR', passwordVariable: 'DOCKER_CRED_PSW')]) { 
@@ -23,20 +19,34 @@ pipeline {
                     sh 'docker push yunandar711/nodejs-app:${GIT_BRANCH}' }
                 }
         }
-        stage('Deploy to server') {
-            environment {
-                APP_SERVER = credentials('VM-APP')
-            }
+
+        stage('Deploy to Server') {
             steps {
-                    sh 'ssh -o StrictHostKeyChecking=no APP_SERVER_USR@103.117.56.235'
-                    sh 'sudo docker run yunandar711/nodejs-app'
+                script {
+                    def nodeJS = yunandar711/nodejs-app:${GIT_BRANCH}
+                    def stopContainer = "docker stop ${nodeJS}"
+                    def deleteContName = "docker rm ${nodeJS}"
+                    def deleteImages = 'docker image prune -a --force'
+                    def dockerRun = "docker run -d -p 3000:3000 yunandar711/nodejs-app:${GIT_BRANCH}"
+                    println "${dockerRun}"
+                    sshagent(['VM-APP']) {
+                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${stopContainer} "
+                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${deleteContName}"
+                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${deleteImages}"
+
+                    // Run the container
+                        sh "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${dockerRun}"
+                    }
                 }
+            }
+        }
+
+        
+    }
+    post {
+        always {
+            sh 'echo('complete')'
+            sh 'docker image prune -a --force'
         }
     }
-//    post {
-//      always {
-//          sh 'echo('complete')''
-       // sh 'docker rm -f yunandar711/nodejs-app:${GIT_BRANCH} && docker logout'
-//    }
-//  }
 }
