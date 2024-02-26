@@ -23,11 +23,11 @@ pipeline {
         stage('Deploy to Server') {
             steps {
                 script {
-                    def nodeJS = 'yunandar711/nodejs-app:${GIT_BRANCH}'
+                    def nodeJS = 'nodejs-app'
                     def stopContainer = "docker stop ${nodeJS}"
                     def deleteContName = "docker rm ${nodeJS}"
                     def deleteImages = 'docker image prune -a --force'
-                    def dockerRun = "docker run -d -p 3000:3000 yunandar711/nodejs-app:${GIT_BRANCH}"
+                    def dockerRun = "docker run -d --name nodejs-app -p 3000:3000 yunandar711/nodejs-app:${GIT_BRANCH}"
                     println "${dockerRun}"
                     sshagent(['VM-APP']) {
                         sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${stopContainer} "
