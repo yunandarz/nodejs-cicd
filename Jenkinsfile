@@ -23,7 +23,7 @@ pipeline {
         stage('Deploy to Server') {
             steps {
                 script {
-                    def nodeJS = yunandar711/nodejs-app:${GIT_BRANCH}
+                    def nodeJS = 'yunandar711/nodejs-app:${GIT_BRANCH}'
                     def stopContainer = "docker stop ${nodeJS}"
                     def deleteContName = "docker rm ${nodeJS}"
                     def deleteImages = 'docker image prune -a --force'
