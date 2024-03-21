@@ -30,10 +30,10 @@ pipeline {
                     def dockerRun = "docker run -d --name nodejs-app -p 3000:3000 yunandar711/nodejs-app:${GIT_BRANCH}"
                     println "${dockerRun}"
                     sshagent(['VM-APP']) {
-                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${stopContainer} "
-                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${deleteContName}"
-                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${deleteImages}"
-                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar-app@103.117.56.235 ${dockerRun}"
+                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar@103.174.115.41 ${stopContainer} "
+                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar@103.174.115.41 ${deleteContName}"
+                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar@103.174.115.41 ${deleteImages}"
+                        sh returnStatus: true, script: "ssh -o StrictHostKeyChecking=no yunandar@103.174.115.41 ${dockerRun}"
                     }
                 }
             }
